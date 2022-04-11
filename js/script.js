@@ -1,22 +1,24 @@
-// RAJOUTER DES COMMENTAIRES
+// on recupère les données de l'API via la methode fetch
 function getArticles(){
-  return fetch("http://localhost:3000/api/products")                           
-  .then(function(res){                  // on lui donne des foncitons qu'il va executer quand il aura récupéré les données.
+  return fetch("http://localhost:3000/api/products")   
+  .then(function(res){                  
     if (res.ok) { 
-      return res.json()    // retour en json
+  // retour en json
+      return res.json()  
     }
   })
-  .then(function(data){  // ici on récupère le retrun du then précédent donc les articles
+  // ici on récupère le retrun du then précédent donc les articles
+  .then(function(data){  
   return data
   })
   .catch(function(error){
-    alert("le serveur est éteint") // en cas d'erreur si fetch n'arrive pas à destination
+    alert("le serveur est éteint") 
   })
 }
 
 
-// 
-function displayArticle(product){        // ici on affiche dans la page nos articles
+// on affiche dans la page nos articles
+function displayArticle(product){         
   document.getElementById('items').innerHTML += `<a href="./product.html?id=${product._id}">
   <article>
     <img src=${product.imageUrl} alt=${product.altTxt}>
@@ -27,11 +29,13 @@ function displayArticle(product){        // ici on affiche dans la page nos arti
 }
 
 
-// commentaire
-async function main() {                      // await que avec fonction asynchrone donc async
-  const articles = await getArticles()    // articles = fonction qui recupère les données, await car on attend que la promess à été résolut
-  for(let article of articles){            // boucle
-    displayArticle(article)
+// on regroupe les fonctions dans une seule 
+async function main() {     
+ // constante des données de l'API
+  const articles = await getArticles() 
+ //on boucle la constante articles 
+  for(let produit of articles){           
+    displayArticle(produit)
   }
 }
-main()  // fonction qui s'affiche au chargement de la page // J'appelle ma fonction main()
+main()  // fonction qui s'affiche au chargement de la page 
