@@ -28,7 +28,7 @@ document.getElementById("price").textContent = article.price
 document.getElementById("description").textContent = article.description
 // On récupère l'id dans la page
 let selectColor =  document.querySelector("#colors")
-let colors = article.colors.length;
+//let colors = article.colors.length;
 let colorChoice = article.colors;
 for (let i = 0; i < colorChoice.length; i++){
 selectColor.innerHTML += `<option value="${colorChoice[i]}">${colorChoice[i]}</option>`;
@@ -38,7 +38,7 @@ selectColor.innerHTML += `<option value="${colorChoice[i]}">${colorChoice[i]}</o
 
 function event(){  
 // Selection des élements dans le DOM 
-let btnSupp = document.getElementById("addToCart");
+let btnOrder = document.getElementById("addToCart");
 let color = document.querySelector('select[name="color-select"]');
 let quant = document.getElementById("quantity");
 
@@ -59,29 +59,31 @@ colors : article.colors,
 quantite: 1,
 };
 
-// Écoute du bouton " Ajouter au panier " 
-btnSupp.addEventListener("click", function(e){
 
+// Écoute du bouton " Ajouter au panier " 
+btnOrder.addEventListener("click", function(e){    
+// Si l'utilisateur oublie de renseigner une couleur
 if(tab.colors === article.colors || tab.colors === ""){    
 alert("Veillez sélectionner une couleur")
 sessionStorage.removeItem("produit"); 
-} else {
+} else if( quant.value < 1 || quant.value > 100){
+  alert(" La quantité renseignée doit être comprise entre 1 et 100")
+} 
+else {
 // Fonction pour rediriger l'utilisateur en fonction de sa réponse
 function redirection(){
-  alert("votre produit à bien été ajouté au panier !")
-  // Si oui, il sera rdirigé vers la page panier 
-   let oui = confirm("Voulez-vous être redirigé vers la page panier ?")
-   if (oui){
-    document.location.href = "./cart.html"
-   } 
-  else {
-   document.location.href= "./index.html"
-  }         
-}redirection()
+    alert("votre produit à bien été ajouté au panier !")
+    // Si oui, il sera rdirigé vers la page panier 
+     let yes = confirm("Voulez-vous être redirigé vers la page panier ?")
+     if (yes){
+      document.location.href = "./cart.html"
+     } 
+}
 
 /*********** Envoie des produits selectionnés dans le local storage ****************/
+
 // On créer la variable qui contient les données du local storage 
-let produitJson = JSON.parse(localStorage.getItem("produit"));
+let produitJson = JSON.parse(localStorage.getItem("produit")); 
 // Première condition, si le localStorage est vide
 if(produitJson === null){
 produitJson = [];
@@ -89,28 +91,42 @@ produitJson = [];
 produitJson.push(tab);
 // On re actualise le localStorage (avec les nouvelles valeurs ajoutées)
 localStorage.setItem("produit", JSON.stringify(produitJson));
+redirection()
 } 
 
 // Deuxième condition, si le localStorage n'est pas vide
 else if(produitJson != null){
 // On boucle sur les données présente dans le localStorage
-for( i = 0; i < produitJson.length; i++){
+for(let i = 0; i < produitJson.length; i++){
+  
+// Conversion en nombre de la quantité choisit par l'utilisateur et celle déja enregistrée dans le local storage
+  let valueQuantite = parseInt(tab.quantite);
+  let valueQuantiteLocalStorage = parseInt(produitJson[i].quantite);
+
+// si la quantité du produit est déja à 100 produits ajoutés dans le local storage 
+   if (produitJson[i].id === tab.id && produitJson[i].colors === tab.colors && produitJson[i].quantite >= 100){
+    alert("Vous ne pouvez pas ajouter plus de 100 produits du même type !")
+    return(
+      produitJson[i].quantite = valueQuantiteLocalStorage,
+      localStorage.setItem("produit", JSON.stringify(produitJson)))
+    }
+
 // Si les données qu'on ajoute sont égales aux données déjà enregistrées dans le localStorage 
  if (produitJson[i].id === tab.id && produitJson[i].colors === tab.colors){
-// On retourne + 1 à la quantité du produit en question
-   return(
-     produitJson[i].quantite++,
-     localStorage.setItem("produit", JSON.stringify(produitJson)))
- }
+  return(
+    produitJson[i].quantite = valueQuantite + valueQuantiteLocalStorage,
+    localStorage.setItem("produit", JSON.stringify(produitJson))),
+    redirection()
+ } 
 }
 // Si les données qu'on ajoute ont le même id mais pas la même couleur ou l'inverse
-for( i = 0; i < produitJson.length; i++) {
-  if(
-    (produitJson[i].id === tab.id &&  produitJson[i].colors !== tab.colors) || produitJson[i].id !== tab.id ){
+for(let i = 0; i < produitJson.length; i++) {                 
+  if((produitJson[i].id === tab.id &&  produitJson[i].colors !== tab.colors) || produitJson[i].id !== tab.id ){
 // On retourne les valeurs ajoutées dans un nouvel index      
     return(
       produitJson.push(tab), 
-      localStorage.setItem("produit", JSON.stringify(produitJson)))
+      localStorage.setItem("produit", JSON.stringify(produitJson))),
+      redirection()
   }
 }
 }
