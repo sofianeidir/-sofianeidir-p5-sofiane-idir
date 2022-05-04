@@ -1,11 +1,11 @@
 // On récupère les produits stockés dans le local storage
 let addProduits = JSON.parse(localStorage.getItem("produit"));
+// déclaration de constantes
 const totalProduits = document.querySelector("#totalQuantity");
 const totalPrix = document.querySelector("#totalPrice");
 // Tableaux qui vont contenir les prix / quantité de produits
 let tabQuantite = [];
 let tabPrix = [];
-
 
 // On récupère les données de l'API via fetch
 function getArticle(){
