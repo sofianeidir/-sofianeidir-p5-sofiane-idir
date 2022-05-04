@@ -56,7 +56,6 @@ btnOrder.addEventListener("click", function(e){
 // Si l'utilisateur oublie de renseigner une couleur
   if(tab.colors === article.colors || tab.colors === ""){
     alert("Veillez sélectionner une couleur")
-//sessionStorage.removeItem("produit"); // lOCAL STORAGE
   } else if( quant.value < 1 || quant.value > 100){
   alert(" La quantité renseignée doit être comprise entre 1 et 100")
   } else{
