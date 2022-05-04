@@ -34,7 +34,7 @@ function displayArticle(article) {
   } 
   else {
 // Si le panier n'est pas vide
-    for(let p = 0; p < addProduits.length; p++){   /// rajout du let p 
+    for(let p = 0; p < addProduits.length; p++){ 
       for(let k= 0; k < article.length; k++){
         if(addProduits[p].id === article[k]._id){
           carte.innerHTML += `
@@ -67,19 +67,16 @@ function displayArticle(article) {
 // Fonction pour augmenter la quantiter dans le local storage depuis la page panier
 function changeQuantityLocalStorage(){
 // Sélection de la div qui contient le produit
-  const carteProduit = document.querySelectorAll(".cart__item")
+  const carteProduit = document.querySelectorAll(".cart__item");
 
   carteProduit.forEach((valueQuantity)=> {
     valueQuantity.addEventListener("change", (event)=> {
       for(let i = 0; i < addProduits.length; i++){ 
         let newValueQuantity = event.target.value;
-        let parseNewValueQuantity = parseInt(newValueQuantity); // renommé
-        // if(addProduits[i].id === valueQuantity.dataset.id && addProduits[i].colors === valueQuantity.dataset.color &&  parseNewValueQuantity < addProduits[i].quantite &&  parseNewValueQuantity <= 100 ){
-        //   return addProduits[i].quantite = parseNewValueQuantity, localStorage.setItem("produit", JSON.stringify(addProduits))
-        // } 
-          if (addProduits[i].id === valueQuantity.dataset.id && addProduits[i].colors === valueQuantity.dataset.color &&  parseNewValueQuantity <= 100){
-           return addProduits[i].quantite = parseNewValueQuantity, localStorage.setItem("produit", JSON.stringify(addProduits))
-         }
+        let parseNewValueQuantity = parseInt(newValueQuantity);
+        if(addProduits[i].id === valueQuantity.dataset.id && addProduits[i].colors === valueQuantity.dataset.color &&  parseNewValueQuantity <= 100){
+          return addProduits[i].quantite = parseNewValueQuantity, localStorage.setItem("produit", JSON.stringify(addProduits))
+        }
       }
     })
   })
@@ -89,7 +86,6 @@ function deletProduct(){
 let supprimer = document.querySelectorAll(".deleteItem");
 // BOUTON SUPPRIMER
   supprimer.forEach((supp) => {
-   
     supp.addEventListener("click", function(){
       location.reload();
 // Si l'utilisateur confirme la suppression du produit
@@ -105,13 +101,9 @@ let supprimer = document.querySelectorAll(".deleteItem");
           }   
         }
       }
-    // else{
-    //   localStorage.setItem("produit", JSON.stringify(addProduits));  // PAS NECESSAIRE JE CROIS
-    //   }
     })
   })
 }
-/************************ Affichage du prix total et de la quantité ************************/
 // Fonction qui va calculer la quantité/prix total des produits ajoutés au panier
 function calculTotalQuantitePrix(){
 let quantiteDom = document.querySelectorAll(".itemQuantity");
@@ -326,6 +318,6 @@ async function main(){
   changeQuantityLocalStorage();
   deletProduct();
   calculTotalQuantitePrix();
-  validForm()
-  sendData()
+  validForm();
+  sendData();
 } main()
