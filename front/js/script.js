@@ -15,8 +15,6 @@ function getArticles(){
     alert("le serveur est éteint") 
   })
 }
-
-
 // on affiche dans la page nos articles
 function displayArticle(product){         
   document.getElementById('items').innerHTML += `<a href="./product.html?id=${product._id}">
@@ -27,8 +25,6 @@ function displayArticle(product){
   </article>
 </a>`
 }
-
-
 // on regroupe les fonctions dans une seule 
 async function main() {     
  // constante des données de l'API
