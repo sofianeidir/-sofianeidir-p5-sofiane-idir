@@ -110,32 +110,32 @@ let quantiteDom = document.querySelectorAll(".itemQuantity");
   for (let i = 0; i < quantiteDom.length; i++ ){
     // Calcul de la quantité total
     let quantite = quantiteDom[i].value;
-    let quantNomber = parseInt(quantite);
-    tabQuantite.push(quantNomber);
+    let parseQuantiteValue = parseInt(quantite);
+    tabQuantite.push(parseQuantiteValue);
     const reducer2 = (accumulator, currentValue) => accumulator + currentValue;
-    const quantiteToto = tabQuantite.reduce(reducer2, 0);
-    totalProduits.textContent = quantiteToto;
+    const quantiteTotal = tabQuantite.reduce(reducer2, 0);
+    totalProduits.textContent = quantiteTotal;
     // Calcul du prix total 
     let contenuePrice = document.querySelectorAll(".cart__item__content__description p:last-child");
-    let price = contenuePrice[i].textContent;
-    let nomber = parseInt(price);
-    contenuePrice[i].textContent = nomber * quantNomber + "€";
-    tabPrix.push(nomber * quantNomber);
+    let priceValue = contenuePrice[i].textContent;
+    let parsePriceValue = parseInt(priceValue);
+    contenuePrice[i].textContent = parsePriceValue * parseQuantiteValue + "€";
+    tabPrix.push(parsePriceValue * parseQuantiteValue);
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
-    const prixToto = tabPrix.reduce(reducer, 0);
-    totalPrix.textContent = prixToto;
+    const prixTotal = tabPrix.reduce(reducer, 0);
+    totalPrix.textContent = prixTotal;
 
 /******************************** total Quantité/prix en fonction des changements **********************************/
     quantiteDom[i].addEventListener("change", function(event){
   // Total de la quantité après changement
       quantite = event.target.value;
-      quantNomber = parseInt(quantite);
-      tabQuantite.splice(i, 1, quantNomber) 
+      parseQuantiteValue = parseInt(quantite);
+      tabQuantite.splice(i, 1, parseQuantiteValue) 
       const reducer3 = (accumulator, currentValue) => accumulator + currentValue;
       const quantiteTotalChange = tabQuantite.reduce(reducer3, 0);
       totalProduits.textContent = quantiteTotalChange;
   // Modification du prix d'un seul article en fonction de sa quantité
-      let calculPriceProduct = quantNomber * nomber;
+      let calculPriceProduct = parseQuantiteValue * parsePriceValue;
       contenuePrice[i].textContent = calculPriceProduct + "€" 
   // Total du prix après changement de la quantité  
       let priceChange = contenuePrice[i].textContent;
@@ -145,7 +145,7 @@ let quantiteDom = document.querySelectorAll(".itemQuantity");
       const priceTotalChange = tabPrix.reduce(reducer, 0);
       totalPrix.textContent = priceTotalChange;
   // Si la quantité renseignée dans le dom est supérieur à 100        
-      if(quantNomber > 100){
+      if(parseQuantiteValue > 100){
         alert("La quantité total maximum par produit est de 100 !");
         window.location.reload()
       }
@@ -302,7 +302,7 @@ function sendData(){
       window.location.href = `confirmation.html?id=${data.orderId}`;
     })
     .catch((err) => {
-      alert ("Problème avec fetch : error");
+      alert ("Veillez contacter l'admistrateur");
     }); 
 // si tout est ok, le local storage est vidée après la commande
     localStorage.clear();

@@ -2,8 +2,7 @@
 function getArticles(){
   return fetch("http://localhost:3000/api/products")   
   .then(function(res){                  
-    if (res.ok) { 
-  // retour en json
+    if(res.ok){ 
       return res.json()  
     }
   })
@@ -26,7 +25,7 @@ function displayArticle(product){
 </a>`
 }
 // on regroupe les fonctions dans une seule 
-async function main() {     
+async function main(){     
  // constante des données de l'API
   const articles = await getArticles() 
  //on boucle la constante articles 

@@ -26,7 +26,6 @@ document.getElementById("price").textContent = article.price
 document.getElementById("description").textContent = article.description
 // On récupère l'id dans la page
 let selectColor =  document.querySelector("#colors")
-//let colors = article.colors.length;
 let colorChoice = article.colors;
 for (let i = 0; i < colorChoice.length; i++){
 selectColor.innerHTML += `<option value="${colorChoice[i]}">${colorChoice[i]}</option>`;
@@ -84,8 +83,9 @@ btnOrder.addEventListener("click", function(e){
 // Conversion en nombre de la quantité choisit par l'utilisateur et celle déja enregistrée dans le local storage
     let valueQuantite = parseInt(tab.quantite);
     let valueQuantiteLocalStorage = parseInt(produitJson[i].quantite);
+    console.log(valueQuantiteLocalStorage)
 // si la quantité du produit est déja à 100 produits ajoutés dans le local storage 
-    if (produitJson[i].id === tab.id && produitJson[i].colors === tab.colors && produitJson[i].quantite >= 100){
+    if (produitJson[i].id === tab.id && produitJson[i].colors === tab.colors && valueQuantite + valueQuantiteLocalStorage >= 100){
       alert("Vous ne pouvez pas ajouter plus de 100 produits du même type !")
       return(
         produitJson[i].quantite = valueQuantiteLocalStorage,
