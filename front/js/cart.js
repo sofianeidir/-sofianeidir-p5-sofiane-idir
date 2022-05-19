@@ -1,5 +1,15 @@
 // On récupère les produits stockés dans le local storage
 let addProduits = JSON.parse(localStorage.getItem("produit"));
+// Les produits doivent toujours apparaître de manière groupée par modèle 
+addProduits.sort((a,b) => {
+  aId = a.id.toLowerCase();
+  bId = b.id.toLowerCase();
+  if(aId < bId){return -1}
+  if(aId > bId){return 1}
+if(aId === bId){
+  return a.quantite - b.quantite
+}
+})
 // déclaration de constantes
 const totalProduits = document.querySelector("#totalQuantity");
 const totalPrix = document.querySelector("#totalPrice");
@@ -34,7 +44,7 @@ function displayArticle(article) {
   } 
   else {
 // Si le panier n'est pas vide
-    for(let p = 0; p < addProduits.length; p++){ 
+    for(let p = 0; p < addProduits.length; p++){  
       for(let k= 0; k < article.length; k++){
         if(addProduits[p].id === article[k]._id){
           carte.innerHTML += `
@@ -299,13 +309,13 @@ function sendData(){
     fetch("http://localhost:3000/api/products/order", options)
     .then((response) => response.json())
     .then((data) => {
+      localStorage.clear();
       window.location.href = `confirmation.html?id=${data.orderId}`;
     })
     .catch((err) => {
       alert ("Veillez contacter l'admistrateur");
     }); 
 // si tout est ok, le local storage est vidée après la commande
-    localStorage.clear();
     } else{
     alert("Veuillez remplir les champs correctements avant de procéder au paiement");
     }

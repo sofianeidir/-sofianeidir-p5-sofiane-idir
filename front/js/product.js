@@ -85,7 +85,7 @@ btnOrder.addEventListener("click", function(e){
     let valueQuantiteLocalStorage = parseInt(produitJson[i].quantite);
     console.log(valueQuantiteLocalStorage)
 // si la quantité du produit est déja à 100 produits ajoutés dans le local storage 
-    if (produitJson[i].id === tab.id && produitJson[i].colors === tab.colors && valueQuantite + valueQuantiteLocalStorage >= 100){
+    if (produitJson[i].id === tab.id && produitJson[i].colors === tab.colors && valueQuantite + valueQuantiteLocalStorage > 100){
       alert("Vous ne pouvez pas ajouter plus de 100 produits du même type !")
       return(
         produitJson[i].quantite = valueQuantiteLocalStorage,
